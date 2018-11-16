@@ -7,7 +7,7 @@ const PlaylistSchema = new Schema({
     description:String,
     ownerId:String,
     created: {type:Date, default: Date.now},
-    songs:{type:Schema.Types.ObjectId, ref:'Song'},
+    songs:[{type:Schema.Types.ObjectId, ref:'Song'}],
 })
 PlaylistSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Playlist',PlaylistSchema) 
@@ -19,9 +19,7 @@ module.exports = mongoose.model('Playlist',PlaylistSchema)
 // userId:{type:Schema.Types.ObjectId, ref:'User'},
 
 
-// {
-//     "success": false,
-//     "message": "the playlist already exist",
+
 //     "data": {
 //         "_id": "5bee89cab2d9f243e075143c",
 //         "created": "2018-11-16T09:11:38.294Z",
@@ -30,4 +28,3 @@ module.exports = mongoose.model('Playlist',PlaylistSchema)
 //         "name": "fuego2",
 //         "__v": 0
 //     }
-// }
