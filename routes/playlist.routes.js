@@ -106,14 +106,18 @@ router.delete('/delete/:id', checkJwt, (req,res,next) =>{
 router.get('/songs/:id', checkJwt, (req,res,next) =>{
 
     let playlistId = req.params.id
-    Song.find({playlistId: playlistId},(err,songAll)=>{
+    var query  =  Song.find({playlistId: playlistId})
+    query.sort({vote:-1})
+    query.exec(function (err, docs) {
+        // called when the `query.complete` or `query.error` are called
+        // internally
         if (err) return next(err);
-        res.json({
-            success:true,
-            message:'all songs',
-            data:songAll
-        })
-    })
+        if (docs) {
+            res.json({
+                message:docs
+            })
+        }
+    });
 })
 
 module.exports = router

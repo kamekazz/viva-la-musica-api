@@ -69,7 +69,6 @@ router.post('/voteup/:id', checkJwt, (req,res,next) =>{
 
 
 router.post('/voted/:id', checkJwt, (req,res,next) =>{
-
     let votantelId = req.decoded.user._id
     let songId = req.params.id
 
@@ -98,6 +97,28 @@ router.post('/voted/:id', checkJwt, (req,res,next) =>{
         }
     })
 })
+
+
+router.delete('/delete/:id', checkJwt, (req,res,next) =>{
+    let songId = req.params.id
+
+    Song.findOne({_id: songId  },(err, songfond)=>{
+        if (err) return next(err);
+        if (songfond) {
+            songfond.remove()
+            res.json({
+                success:true,
+                message:'delete'
+            })
+        } else {
+            res.json({
+                success:false,
+                message:'not fond'
+            })
+        }
+    })
+})
+
 
 function checkAvailability(arr, val) {
     return arr.some(function(arrVal) {
