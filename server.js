@@ -25,9 +25,11 @@ app.use(
 )
 
 const userRouters = require('./routes/user.routes')
+const playlistRouters = require('./routes/playlist.routes')
 
 
 app.use('/api/accounts',userRouters)
+app.use('/api/playlist',playlistRouters)
 
 
 
