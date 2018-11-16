@@ -7,7 +7,7 @@ const PlaylistSchema = new Schema({
     description:String,
     ownerId:String,
     created: {type:Date, default: Date.now},
-    songs:[{type:Schema.Types.ObjectId, ref:'Song'}],
+    
 })
 PlaylistSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Playlist',PlaylistSchema) 

@@ -2,7 +2,7 @@ const router = require('express').Router()
 const Playlist = require('../models/playlist')
 const config = require('../conf/confing')
 const checkJwt = require('../middleware/check-jwt')
-
+const Song = require('../models/song')
 
 
 router.get('/getall', checkJwt, (req,res,next) =>{
@@ -103,5 +103,17 @@ router.delete('/delete/:id', checkJwt, (req,res,next) =>{
     })
 })
 
+router.get('/songs/:id', checkJwt, (req,res,next) =>{
+
+    let playlistId = req.params.id
+    Song.find({playlistId: playlistId},(err,songAll)=>{
+        if (err) return next(err);
+        res.json({
+            success:true,
+            message:'all songs',
+            data:songAll
+        })
+    })
+})
 
 module.exports = router
