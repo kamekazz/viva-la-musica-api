@@ -11,13 +11,13 @@ router.get('/getall', checkJwt, (req,res,next) =>{
         if (err) return next(err);
         if (fandplaylistAll) {
             res.json({
-                success:false,
+                success:true,
                 message:'all playlist',
                 data:fandplaylistAll
             }) 
         } else {
             res.json({
-                success:true,
+                success:false,
                 message:'no list '
             })
         }

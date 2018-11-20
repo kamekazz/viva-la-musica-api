@@ -57,10 +57,7 @@ router.post('/login', (req,res, next)=>{
                     success:true,
                     message: 'listo!! comiensa fiesta',
                     token: token,
-                    user:{
-                        userName:user.userName,
-                        id: user._id
-                    }
+                    user:user.userName
                 })
             }
         }
