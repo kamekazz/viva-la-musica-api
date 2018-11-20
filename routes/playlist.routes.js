@@ -6,9 +6,7 @@ const Song = require('../models/song')
 
 
 router.get('/getall', checkJwt, (req,res,next) =>{
-
     let msdId = req.decoded.user._id
-
     Playlist.find({ownerId: msdId},(err, fandplaylistAll)=>{
         if (err) return next(err);
         if (fandplaylistAll) {

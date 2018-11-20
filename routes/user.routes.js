@@ -9,7 +9,7 @@ router.post('/new', (req,res, next)=>{
     let user = new User()
     user.userName = req.body.userName
     user.password = req.body.password
-
+    console.log(req.body.userName)
     User.findOne({userName: req.body.userName}, (err, existingUser)=>{
         if (err) throw err
         if (existingUser) {
@@ -55,8 +55,12 @@ router.post('/login', (req,res, next)=>{
                 );
                 res.json({
                     success:true,
-                    message: 'listo!! comiensa fiar',
-                    token: token
+                    message: 'listo!! comiensa fiesta',
+                    token: token,
+                    user:{
+                        userName:user.userName,
+                        id: user._id
+                    }
                 })
             }
         }

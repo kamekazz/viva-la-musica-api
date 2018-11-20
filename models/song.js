@@ -10,10 +10,12 @@ const SongSchema = new Schema({
     created: {type:Date, default: Date.now},
     votantelId:[String],
     vote:Number,
-    playlistId:String
+    playlistId:String,
+    duration:Number
 })
 SongSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Song',SongSchema) 
 
 
  // https://www.googleapis.com/youtube/v3/videos?id=9bZkp7q19f0&part=contentDetails&key={YOUR_API_KEY} 
+//  const API_KEY = 'AIzaSyD0JpBJqOZVZIg-1sWtNwVE7KHSwVxtSj8'
