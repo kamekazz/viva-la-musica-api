@@ -105,6 +105,7 @@ router.get('/songs/:id', checkJwt, (req,res,next) =>{
     let playlistId = req.params.id
     var query  =  Song.find({playlistId: playlistId})
     query.sort({vote:-1})
+    // query.select('_id created title description videoId imageUrl playlistId vote duration')
     query.exec(function (err, docs) {
         // called when the `query.complete` or `query.error` are called
         // internally
