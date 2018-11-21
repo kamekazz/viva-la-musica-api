@@ -32,7 +32,7 @@ router.post('/new', checkJwt, (req,res,next) =>{
     playlist.ownerId = req.decoded.user._id
     playlist.description =  req.body.description
     playlist.name =  req.body.name
-
+    console.log(playlist.name);
     Playlist.findOne({name: playlist.name},(err, fandplaylist)=>{
         if (err) return next(err);
         if (fandplaylist) {
