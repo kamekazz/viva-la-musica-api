@@ -3,35 +3,9 @@ const Song = require('../models/song')
 const config = require('../conf/confing')
 const checkJwt = require('../middleware/check-jwt')
 const rp = require('request-promise')
+const async = require('async')
 
-// router.post('/add', checkJwt, (req,res,next) =>{
 
-//     let song = new Song
-//     song.title = req.body.title
-//     song.description = req.body.description
-//     song.videoId = req.body.videoId
-//     song.imageUrl = req.body.imageUrl
-//     song.playlistId = req.body.playlistId
-
-//     song.votantelId = req.decoded.user._id
-//     song.vote = 1
-
-//     Song.findOne({videoId: song.videoId},(err, songfond)=>{
-//         if (err) return next(err);
-//         if (songfond) {
-//             res.json({
-//                 success:false,
-//                 message:'the Song already in playlist exist'
-//             }) 
-//         } else {
-//             song.save()
-//             res.json({
-//                 success:true,
-//                 message:'new Song Add'
-//             })
-//         }
-//     })
-// })
 
 
 router.post('/voteup/:id', checkJwt, (req,res,next) =>{
@@ -123,7 +97,7 @@ router.delete('/delete/:id', checkJwt, (req,res,next) =>{
 
 
 router.post('/add', checkJwt, (req,res,next) =>{
-
+    console.log('start');
     let song = new Song
     song.title = req.body.title
     song.description = req.body.description
@@ -133,22 +107,19 @@ router.post('/add', checkJwt, (req,res,next) =>{
 
     song.votantelId = req.decoded.user._id
     song.vote = 1
-
     const options = {
         method: 'GET',
         uri: `https://www.googleapis.com/youtube/v3/videos?id=${song.videoId}&part=contentDetails&key=${config.API_KEY}`
         ,json: true 
     }
-
     rp(options)
-    .then(function (response) {
-    // Handle the response
+    .then( (response) => {
         const timeINpt = response.items[0].contentDetails.duration
         song.duration  =  timeInminisecon(timeINpt)
-        if (timeINpt.length < 7 || timeINpt.length > 7) {
-            res.json({
-                success:false,
-                message:'to long or to sort'
+        if (timeINpt.length <= 6 || timeINpt.length >= 8 ) {
+             res.json({
+                    success:false,
+                    message:'to long or to sort'
             })
         }else{
             Song.findOne({videoId: song.videoId},(err, songfond)=>{
@@ -159,16 +130,17 @@ router.post('/add', checkJwt, (req,res,next) =>{
                         message:'the Song already in playlist exist'
                     }) 
                 } else {
-                    song.save()
-                    res.json({
-                        success:true,
-                        message:'new Song Add'
-                    })
+                        song.save()
+                        res.json({
+                            success:true,
+                            message:'new Song Add'
+                        })
+                    
                 }
             })
         }
     })
-    .catch(function (err) {
+    .catch( (err) => {
     // Deal with the error
         res.json({
             success:false,
@@ -178,6 +150,9 @@ router.post('/add', checkJwt, (req,res,next) =>{
 })
 
 
+
+
+
 function checkAvailability(arr, val) {
     return arr.some(function(arrVal) {
       return val === arrVal;
@@ -185,8 +160,9 @@ function checkAvailability(arr, val) {
 }
 
 function timeInminisecon(fullString) {
-    console.log('start: ',fullString)
-    if (fullString.length = 7) {
+    console.log('PT length: ',fullString.length)
+    console.log(fullString);
+    
         let seconINstrn = fullString.slice(4,6)
         let miniteINstrn = fullString.slice(2,3)
         let secon = parseFloat(seconINstrn)
@@ -196,7 +172,7 @@ function timeInminisecon(fullString) {
         milisecond = milisecond + minutos
         console.log(milisecond)
         return milisecond
-    } 
+
 
     
 
