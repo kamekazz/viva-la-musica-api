@@ -8,7 +8,7 @@ const async = require('async')
 
 
 
-router.post('/voteup/:id', checkJwt, (req,res,next) =>{
+router.get('/voteup/:id', checkJwt, (req,res,next) =>{
 
     let votantelId = req.decoded.user._id
     let songId = req.params.id
@@ -21,7 +21,6 @@ router.post('/voteup/:id', checkJwt, (req,res,next) =>{
                 message:'you laredy vote '
             })
         }else{
-
             if (songfond) {
                 songfond.vote = songfond.vote + 1
                 songfond.votantelId.push(votantelId)
@@ -43,7 +42,7 @@ router.post('/voteup/:id', checkJwt, (req,res,next) =>{
 })
 
 
-router.post('/voted/:id', checkJwt, (req,res,next) =>{
+router.get('/voted/:id', checkJwt, (req,res,next) =>{
     let votantelId = req.decoded.user._id
     let songId = req.params.id
 
@@ -107,46 +106,26 @@ router.post('/add', checkJwt, (req,res,next) =>{
 
     song.votantelId = req.decoded.user._id
     song.vote = 1
-    const options = {
-        method: 'GET',
-        uri: `https://www.googleapis.com/youtube/v3/videos?id=${song.videoId}&part=contentDetails&key=${config.API_KEY}`
-        ,json: true 
-    }
-    rp(options)
-    .then( (response) => {
-        const timeINpt = response.items[0].contentDetails.duration
-        song.duration  =  timeInminisecon(timeINpt)
-        if (timeINpt.length <= 6 || timeINpt.length >= 8 ) {
-             res.json({
-                    success:false,
-                    message:'to long or to sort'
-            })
-        }else{
-            Song.findOne({videoId: song.videoId},(err, songfond)=>{
-                if (err) return next(err);
-                if (songfond) {
-                    res.json({
-                        success:false,
-                        message:'the Song already in playlist exist'
-                    }) 
-                } else {
-                        song.save()
-                        res.json({
-                            success:true,
-                            message:'new Song Add'
-                        })
-                    
-                }
-            })
+
+    Song.findOne({videoId: song.videoId},(err, songfond)=>{
+        if (err) return next(err);
+        if (songfond) {
+            res.json({
+                success:false,
+                message:'the Song already in playlist exist'
+            }) 
+        } else {
+                song.save()
+                res.json({
+                    success:true,
+                    message:'new Song Add'
+                })
+            
         }
     })
-    .catch( (err) => {
-    // Deal with the error
-        res.json({
-            success:false,
-            message:'youtube api V..2 fail'
-        })
-    })
+      
+   
+
 })
 
 
