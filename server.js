@@ -16,13 +16,13 @@ mongoose.connect(`mongodb://${confing.dbUser}:${confing.dbPassword}@ds037415.mla
     }
 })
 
-
+const whitelist = ['https://client-viva.herokuapp.com','http://localhost:3000']
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use( morgan('dev'))
 app.use(cors({
-    origin: 'https://client-viva.herokuapp.com',
+    origin: whitelist,
     credentials: true
 }));
 
@@ -38,9 +38,12 @@ const playlistRouters = require('./routes/playlist.routes')
 const songRouters = require('./routes/song.routes')
 
 
+
+
 app.use('/api/accounts',userRouters)
 app.use('/api/playlist',playlistRouters)
 app.use('/api/song',songRouters)
+
 
 
 
