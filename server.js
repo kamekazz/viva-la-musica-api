@@ -21,14 +21,13 @@ mongoose.connect(`mongodb://${confing.dbUser}:${confing.dbPassword}@ds037415.mla
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use( morgan('dev'))
-// app.use(cors())
+app.use(cors({
+    origin: 'https://client-viva.herokuapp.com',
+    credentials: true
+}));
 
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://client-viva.herokuapp.com");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-}); 
+
    
     
 
