@@ -69,10 +69,10 @@ router.post('/login', (req,res, next)=>{
 
 
 ///forde Dev
-router.get('/koolup', checkJwt, (req,res, next)=>{
+router.get('/koolup', (req,res, next)=>{
     let tokenInfo = req.decoded.user 
     res.json({
-        token: tokenInfo
+        token: "hola"
     })
 })
 
