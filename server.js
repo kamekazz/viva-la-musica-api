@@ -16,23 +16,12 @@ mongoose.connect(`mongodb://${confing.dbUser}:${confing.dbPassword}@ds037415.mla
     }
 })
 
-var whitelist = [
-    'http://localhost:3000/signin',
-];
-var corsOptions = {
-    origin: function(origin, callback){
-        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-        callback(null, originIsWhitelisted);
-    },
-    credentials: true
-};
-
 
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use( morgan('dev'))
-app.use(cors(corsOptions))
+app.use(cors())
 
    
     
