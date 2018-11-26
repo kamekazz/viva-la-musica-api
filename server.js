@@ -16,12 +16,22 @@ mongoose.connect(`mongodb://${confing.dbUser}:${confing.dbPassword}@ds037415.mla
     }
 })
 
+var whitelist = [
+    'http://localhost:3000',
+];
+var corsOptions = {
+    origin: function(origin, callback){
+        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+        callback(null, originIsWhitelisted);
+    },
+    credentials: true
+};
 
 app.use(
     bodyParser.json(),
     bodyParser.urlencoded({extended:false}),
     morgan('dev'),
-    cors()
+    cors(corsOptions)
 )
 
 const userRouters = require('./routes/user.routes')
