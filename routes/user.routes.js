@@ -65,6 +65,9 @@ router.post('/login', (req,res, next)=>{
 
 })
 
+
+
+
 ///forde Dev
 router.get('/koolup', checkJwt, (req,res, next)=>{
     let tokenInfo = req.decoded.user 
@@ -74,7 +77,42 @@ router.get('/koolup', checkJwt, (req,res, next)=>{
 })
 
 
+router.get('/new/guste', (req,res, next)=>{
+    let user = new User()
+    user.userName = makeid()
+    user.password = makeid()
+    User.findOne({userName: user.userName}, (err, existingUser)=>{
+        if (err) throw err
+        if (existingUser) {
+            res.json({
+                success:false,
+                message:'Account with that email is alredy Exist'
+            })
+        } else {
+            user.save()
+            var token = jwt.sign(
+                {user: user},config.secret,
+                {expiresIn:'7d'}
+            );
 
+            res.json({
+                success: true,
+                message: 'esta enlazado con tu token',
+                token: token
+            })
+        }
+    })
+})
+
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+}
 
 
 module.exports = router
