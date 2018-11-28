@@ -49,7 +49,13 @@ router.get('/voted/:id', checkJwt, (req,res,next) =>{
     Song.findOne({_id: songId},(err, songfond)=>{
         if (err) return next(err);
         if (songfond) {
-            if (songfond.vote > 1) {
+            if (checkAvailability(songfond.votantelId,votantelId)) {
+                res.json({
+                    success:false,
+                    message:'you laredy vote '
+                })
+            
+            }else if (songfond.vote > 1) {
                 songfond.vote = songfond.vote - 1
                 songfond.votantelId.push(votantelId)
                 songfond.save()
@@ -71,6 +77,7 @@ router.get('/voted/:id', checkJwt, (req,res,next) =>{
         }
     })
 })
+
 
 
 router.delete('/delete/:id', checkJwt, (req,res,next) =>{
@@ -151,14 +158,7 @@ function timeInminisecon(fullString) {
         milisecond = milisecond + minutos
         console.log(milisecond)
         return milisecond
-
-
-    
-
 }
 
 
-
 module.exports = router
-
-// PT4M13S
