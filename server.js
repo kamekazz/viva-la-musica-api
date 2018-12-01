@@ -16,7 +16,7 @@ mongoose.connect(`mongodb://${confing.dbUser}:${confing.dbPassword}@ds037415.mla
     }
 })
 
-const whitelist = ['https://client-viva.herokuapp.com','http://localhost:3000,','https://viva-la-musica.firebaseapp.com']
+const whitelist = ['https://client-viva.herokuapp.com','http://localhost:3000','https://viva-la-musica.firebaseapp.com']
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
