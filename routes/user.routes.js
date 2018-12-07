@@ -77,16 +77,15 @@ router.get('/koolup', (req,res, next)=>{
 })
 
 
-router.get('/new/guste', (req,res, next)=>{
+router.post('/new/guste', (req,res, next)=>{
     let user = new User()
-    user.userName = makeid()
-    user.password = makeid()
+    user.userName = req.body.userName
     User.findOne({userName: user.userName}, (err, existingUser)=>{
         if (err) throw err
         if (existingUser) {
             res.json({
                 success:false,
-                message:'Account with that email is alredy Exist'
+                message:'Account  alredy Exist'
             })
         } else {
             user.save()
@@ -94,10 +93,9 @@ router.get('/new/guste', (req,res, next)=>{
                 {user: user},config.secret,
                 {expiresIn:'7d'}
             );
-
             res.json({
                 success: true,
-                message: 'esta enlazado con tu token',
+                message: '',
                 token: token
             })
         }

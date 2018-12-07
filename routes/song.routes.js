@@ -103,7 +103,6 @@ router.delete('/delete/:id', checkJwt, (req,res,next) =>{
 
 
 router.post('/add', checkJwt, (req,res,next) =>{
-    console.log('start');
     let song = new Song
     song.title = req.body.title
     song.description = req.body.description
