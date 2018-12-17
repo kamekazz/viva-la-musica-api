@@ -11,8 +11,9 @@ const SongSchema = new Schema({
     votantelId:[String],
     vote:Number,
     playlistId:String,
-    duration:Number
+    duration:Number,
 })
+
 SongSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Song',SongSchema) 
 

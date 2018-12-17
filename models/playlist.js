@@ -7,7 +7,8 @@ const PlaylistSchema = new Schema({
     description:String,
     ownerId:String,
     created: {type:Date, default: Date.now},
-    
+    guests:[{type:Schema.Types.ObjectId, ref:'User'}],
+    live:Boolean
 })
 PlaylistSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Playlist',PlaylistSchema) 

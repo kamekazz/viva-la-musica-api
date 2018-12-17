@@ -7,6 +7,7 @@ const crypto =require('crypto')
 const UserSchema = new Schema({
     userName:{type:String,unique:true,lowercase:true},
     password:String,
+    guests:Boolean,
     created: {type:Date, default: Date.now},
 })
 
