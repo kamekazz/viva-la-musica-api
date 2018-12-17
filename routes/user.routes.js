@@ -26,7 +26,7 @@ router.post('/new', (req,res, next)=>{
 
             res.json({
                 success: true,
-                message: 'esta enlazado con tu token',
+                message: 'Que comience la fiesta!!!',
                 token: token
             })
         }
@@ -39,14 +39,14 @@ router.post('/login', (req,res, next)=>{
         if (!user) {
             res.json({
                 success: false,
-                message: 'usuario no exsiste'
+                message: 'user does not exist'
             })
         } else if (user) {
             var validPassword = user.comparePassword(req.body.password)
             if (!validPassword) {
                 res.json({
                     success: false,
-                    message: 'Clave Encorecta'
+                    message: 'wrong password'
                 })
             } else{
                 var token = jwt.sign(
@@ -55,7 +55,7 @@ router.post('/login', (req,res, next)=>{
                 );
                 res.json({
                     success:true,
-                    message: 'listo!! comiensa fiesta',
+                    message: 'Que comience la fiesta!!!',
                     token: token,
                     user:user.userName
                 })
@@ -85,7 +85,7 @@ router.post('/new/guste', (req,res, next)=>{
         if (existingUser) {
             res.json({
                 success:false,
-                message:'Account  alredy Exist'
+                message:'Account already Exist'
             })
         } else {
             user.save()
@@ -95,22 +95,14 @@ router.post('/new/guste', (req,res, next)=>{
             );
             res.json({
                 success: true,
-                message: '',
+                message: 'enjoy',
                 token: token
             })
         }
     })
 })
 
-function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
-    return text;
-}
+
 
 
 module.exports = router

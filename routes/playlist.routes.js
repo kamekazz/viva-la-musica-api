@@ -18,7 +18,7 @@ router.get('/getall', checkJwt, (req,res,next) =>{
         } else {
             res.json({
                 success:false,
-                message:'no list '
+                message:'no list'
             })
         }
     })
@@ -27,12 +27,10 @@ router.get('/getall', checkJwt, (req,res,next) =>{
 
 
 router.post('/new', checkJwt, (req,res,next) =>{
-
     let playlist = new Playlist
     playlist.ownerId = req.decoded.user._id
     playlist.description =  req.body.description
     playlist.name =  req.body.name
-    console.log(playlist.name);
     Playlist.findOne({name: playlist.name},(err, fandplaylist)=>{
         if (err) return next(err);
         if (fandplaylist) {
@@ -69,7 +67,7 @@ router.post('/edit/:id', checkJwt, (req,res,next) =>{
             fandplaylist.save()
             res.json({
                 success:true,
-                message:'ok to edit '
+                message:'edit is complete'
             })
         } else {
             res.json({
@@ -112,7 +110,7 @@ router.get('/songs/:id', checkJwt, (req,res,next) =>{
         if (err) return next(err);
         if (docs) {
             res.json({
-                message:'todas tus casiosnes',
+                message:'all of your songs',
                 data:docs
             })
         }

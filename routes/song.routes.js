@@ -2,14 +2,12 @@ const router = require('express').Router()
 const Song = require('../models/song')
 const config = require('../conf/confing')
 const checkJwt = require('../middleware/check-jwt')
-const rp = require('request-promise')
-const async = require('async')
+
 
 
 
 
 router.get('/voteup/:id', checkJwt, (req,res,next) =>{
-
     let votantelId = req.decoded.user._id
     let songId = req.params.id
 
@@ -18,7 +16,7 @@ router.get('/voteup/:id', checkJwt, (req,res,next) =>{
         if (checkAvailability(songfond.votantelId,votantelId)) {
             res.json({
                 success:false,
-                message:'you laredy vote '
+                message:'song is up voted'
             })
         }else{
             if (songfond) {
@@ -33,7 +31,7 @@ router.get('/voteup/:id', checkJwt, (req,res,next) =>{
                 song.save()
                 res.json({
                     success:false,
-                    message:' Song no longer exiset'
+                    message:'Song no longer exist'
                 })
             }
         }
@@ -66,7 +64,7 @@ router.get('/voted/:id', checkJwt, (req,res,next) =>{
             }else{
                 res.json({
                     success:false,
-                    message:'songe vote is to lo allraedy'
+                    message:'song votes are too long already'
                 })
             }
         } else {
@@ -144,20 +142,19 @@ function checkAvailability(arr, val) {
     });
 }
 
-function timeInminisecon(fullString) {
-    console.log('PT length: ',fullString.length)
-    console.log(fullString);
-    
-        let seconINstrn = fullString.slice(4,6)
-        let miniteINstrn = fullString.slice(2,3)
-        let secon = parseFloat(seconINstrn)
-        let minutos = parseFloat(miniteINstrn)
-        minutos = minutos * 60000
-        let milisecond = secon * 1000
-        milisecond = milisecond + minutos
-        console.log(milisecond)
-        return milisecond
-}
+// function timeInminisecon(fullString) {
+//     console.log('PT length: ',fullString.length)
+//     console.log(fullString);
+//         let seconINstrn = fullString.slice(4,6)
+//         let miniteINstrn = fullString.slice(2,3)
+//         let secon = parseFloat(seconINstrn)
+//         let minutos = parseFloat(miniteINstrn)
+//         minutos = minutos * 60000
+//         let milisecond = secon * 1000
+//         milisecond = milisecond + minutos
+//         console.log(milisecond)
+//         return milisecond
+// }
 
 
 module.exports = router
