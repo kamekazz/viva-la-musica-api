@@ -14,6 +14,7 @@ const PlaylistSchema = new Schema({
         videoId:String,
         created:{type:String,default:true}
     }],
+    nowPlaying:[{type:Schema.Types.ObjectId, ref:'Song'}]
 })
 PlaylistSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Playlist',PlaylistSchema) 
