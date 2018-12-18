@@ -12,6 +12,7 @@ const SongSchema = new Schema({
     vote:Number,
     playlistId:String,
     duration:Number,
+    done:{type:Boolean,default:true}
 })
 
 SongSchema.plugin(deepPopulate)

@@ -78,8 +78,8 @@ router.get('/koolup', (req,res, next)=>{
 
 
 router.post('/new/guste', (req,res, next)=>{
-    let user = new User()
-    user.userName = req.body.userName
+    let user = new User()  
+    user.userName = 'guests ' + req.body.userName 
     User.findOne({userName: user.userName}, (err, existingUser)=>{
         if (err) throw err
         if (existingUser) {

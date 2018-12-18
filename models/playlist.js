@@ -6,9 +6,14 @@ const PlaylistSchema = new Schema({
     name:String,
     description:String,
     ownerId:String,
+    ownerName:String,
     created: {type:Date, default: Date.now},
     guests:[{type:Schema.Types.ObjectId, ref:'User'}],
-    live:Boolean
+    live:Boolean,
+    blacklist:[{
+        videoId:String,
+        created:{type:String,default:true}
+    }]
 })
 PlaylistSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Playlist',PlaylistSchema) 
