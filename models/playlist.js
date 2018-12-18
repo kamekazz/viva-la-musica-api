@@ -13,7 +13,7 @@ const PlaylistSchema = new Schema({
     blacklist:[{
         videoId:String,
         created:{type:String,default:true}
-    }]
+    }],
 })
 PlaylistSchema.plugin(deepPopulate)
 module.exports = mongoose.model('Playlist',PlaylistSchema) 

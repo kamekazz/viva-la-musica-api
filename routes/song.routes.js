@@ -10,7 +10,6 @@ const checkJwt = require('../middleware/check-jwt')
 router.get('/voteup/:id', checkJwt, (req,res,next) =>{
     let votantelId = req.decoded.user._id
     let songId = req.params.id
-
     Song.findOne({_id: songId},(err, songfond)=>{
         if (err) return next(err);
         if (checkAvailability(songfond.votantelId,votantelId)) {
@@ -43,7 +42,6 @@ router.get('/voteup/:id', checkJwt, (req,res,next) =>{
 router.get('/voted/:id', checkJwt, (req,res,next) =>{
     let votantelId = req.decoded.user._id
     let songId = req.params.id
-
     Song.findOne({_id: songId},(err, songfond)=>{
         if (err) return next(err);
         if (songfond) {
@@ -76,11 +74,30 @@ router.get('/voted/:id', checkJwt, (req,res,next) =>{
     })
 })
 
+router.put('/done/:id', checkJwt, (req,res,next) =>{
+    let songId = req.params.id
+    Song.findOne({_id: songId  },(err, songfond)=>{
+        if (err) return next(err);
+        if (songfond) {
+            songfond.done = true
+            songfond.save()
+            res.json({
+                success:true,
+                message:'delete',
+                songfond:songfond,
+            })
+        } else {
+            res.json({
+                success:false,
+                message:'not fond'
+            })
+        }
+    })
+})
 
 
 router.delete('/delete/:id', checkJwt, (req,res,next) =>{
     let songId = req.params.id
-
     Song.findOne({_id: songId  },(err, songfond)=>{
         if (err) return next(err);
         if (songfond) {

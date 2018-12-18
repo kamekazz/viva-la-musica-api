@@ -101,7 +101,7 @@ router.delete('/delete/:id', checkJwt, (req,res,next) =>{
 
 router.get('/songs/:id', checkJwt, (req,res,next) =>{
     let playlistId = req.params.id
-    var query  =  Song.find({playlistId: playlistId})
+    let query  =  Song.find({playlistId: playlistId}).where('done').equals(false)
     query.sort({vote:-1})
     // query.select('_id created title description videoId imageUrl playlistId vote duration')
     query.exec(function (err, docs) {
@@ -117,6 +117,24 @@ router.get('/songs/:id', checkJwt, (req,res,next) =>{
     });
 })
 
+
+router.get('/donesongs/:id', checkJwt, (req,res,next) =>{
+    let playlistId = req.params.id
+    let query  =  Song.find({playlistId: playlistId}).where('done').equals(true)
+    query.sort({vote:-1})
+    // query.select('_id created title description videoId imageUrl playlistId vote duration')
+    query.exec(function (err, docs) {
+        // called when the `query.complete` or `query.error` are called
+        // internally
+        if (err) return next(err);
+        if (docs) {
+            res.json({
+                message:'all of your songs',
+                data:docs
+            })
+        }
+    });
+})
 
 
 module.exports = router
