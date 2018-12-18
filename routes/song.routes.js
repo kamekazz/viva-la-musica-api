@@ -83,7 +83,7 @@ router.put('/done/:id', checkJwt, (req,res,next) =>{
             songfond.save()
             res.json({
                 success:true,
-                message:'delete',
+                message:'done',
                 songfond:songfond,
             })
         } else {

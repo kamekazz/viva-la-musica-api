@@ -129,12 +129,34 @@ router.get('/donesongs/:id', checkJwt, (req,res,next) =>{
         if (err) return next(err);
         if (docs) {
             res.json({
-                message:'all of your songs',
+                message:'all of your songs donesongs',
                 data:docs
             })
         }
     });
 })
+
+
+
+router.put('/resetall/:id', checkJwt,  (req,res,next) =>{
+    let playlistId = req.params.id
+    Song.update({playlistId: playlistId},{done:false},{multi: true},(err,done)=>{
+        if (err) return next(err);
+        if (done) {
+            res.json({
+                message:'reset all songs to false',
+                data:done
+            })
+        }
+
+
+    })
+     
+    
+})
+
+
+
 
 
 module.exports = router
