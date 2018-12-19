@@ -9,7 +9,7 @@ const PlaylistSchema = new Schema({
     ownerName:String,
     created: {type:Date, default: Date.now},
     guests:[{type:Schema.Types.ObjectId, ref:'User'}],
-    live:Boolean,
+    live:{type:Boolean, default: false},
     blacklist:[{
         videoId:String,
         created:{type:String,default:true}
