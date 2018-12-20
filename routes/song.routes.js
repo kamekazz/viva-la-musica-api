@@ -74,7 +74,7 @@ router.get('/voted/:id', checkJwt, (req,res,next) =>{
     })
 })
 
-router.put('/done/:id', checkJwt, (req,res,next) =>{
+router.post('/done/:id', (req,res,next) =>{
     let songId = req.params.id
     Song.findOne({_id: songId  },(err, songfond)=>{
         if (err) return next(err);
